@@ -5,9 +5,9 @@
 
         <title>Greg Dorrell</title>
         <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" charset="utf-8">
-        <script id="tweetTemplate" type="text/html">
+        <script id="twitterTemplate" type="text/html">
             <ul class="tweets">
-                {{#each }}
+                {{#each tweets}}
                 <li class="tweet">
                 <a class="avatar" href="http://twitter.com/${user.screen_name}">
                     <img src="{{= user.profile_image_url}}">
@@ -23,6 +23,39 @@
                 {{/each}}
             </ul> 
         </script>
+        <script id="lastfmTemplate" type="text/html">
+            <ul class="tweets">
+                {{#each tracks}}
+                <li class="tweet">
+                <a class="avatar" href="{{= url}}">
+                    <img src="{{= image }}">
+                </a>
+
+                <span class="lastfm-artist">{{= artist}}</span>
+                <span class="lastfm-album">{{= album}}</span>
+                <span class="lastfm-title">{{= title}}</span>
+                <span class="lastfm-time">{{= date}}</span>
+                </li>
+                {{/each}}
+            </ul> 
+        </script>
+        <script id="facebookTemplate" type="text/html">
+            <ul class="tweets">
+                {{#each data}}
+                <li class="tweet">
+                <a class="avatar" href="{{= link}}">
+                    <img src="{{= picture }}">
+                </a>
+
+                <span class="lastfm-artist">{{= name}}</span>
+                <span class="lastfm-artist">{{= story}}</span>
+                <span class="lastfm-title">{{= description}}</span>
+                <span class="lastfm-title">{{= likes.count}}</span>
+                <span class="lastfm-title">{{= comments.count}}</span>
+                </li>
+                {{/each}}
+            </ul> 
+        </script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script src="http://borismoore.github.com/jsrender/jsrender.js"></script>
         <script type="text/javascript" charset="utf-8">
@@ -32,21 +65,41 @@
 
                 $("body").append('<div id="overlay" style="display: none;"></div>')
                 $("#overlay").click(function() {
-                  $("#overlay").toggle('fast')
-                  $(".box").toggle('fast')
+                  $("#overlay").hide('fast')
+                  $(".box").hide('fast')
                 })
-                $.getJSON('resources/twitter.json', function(data) {
-                  $("#twitter-feed").html($('#tweetTemplate').render(data))
-                })
-                
-                $("#twitter-feed").click(function() {
-                    $("#overlay").toggle('slow')
-                    $("#twitter").toggle('slow')
-                });                    
-                $('#twitter-link').click(function(){
-                  $("#overlay").toggle('slow')
-                  $("#twitter").toggle('slow')
+
+                //For each service, make button work, and click on content again to close.
+                $(".box").each(function(index) {
+                    var service = this.id;
+                    $('#'+service+"-link, #"+service).click(function(){
+                        $("#overlay").toggle('slow')
+                        $("#"+service).toggle('slow')
+                    });
                 });
+
+                //Populate service overlays
+                //Twitter
+                $.getJSON('resources/twitter.json', function(data) {
+                    $("#twitter-feed").html($('#twitterTemplate').render({"tweets":data}))
+                })
+                //Last
+                $.getJSON('resources/lastfm.json', function(data) {
+                    var tracks = {"tracks":data.recenttracks.track.map(function(track) {return {
+                        "artist":track.artist["#text"],
+                        "album":track.album["#text"],
+                        "title":track.name,
+                        "image":track.image[0]["#text"],
+                        "url":track.url,"date":track.date["#text"]
+                    } })}
+                    $("#lastfm-feed").html($("#lastfmTemplate").render(tracks))
+                })
+                $.getJSON('resources/facebook.json', function(data) {
+                    $("#facebook-feed").html($("#facebookTemplate").render(data))
+                })
+                $.getJSON('resources/reddit.json', function(data) {
+                    console.log(data)
+                })
 
             });
         </script>
@@ -209,5 +262,20 @@
           </div>
         </div>
         
+        <div id="lastfm" class="box" style="display:none;">
+          <div id="lastfm-feed">
+            
+          </div>
+        </div>
+        <div id="facebook" class="box" style="display:none;">
+          <div id="facebook-feed">
+            
+          </div>
+        </div>
+        <div id="reddit" class="box" style="display:none;">
+          <div id="reddit-feed">
+            
+          </div>
+        </div>
     </body>
 </html>
