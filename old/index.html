@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        <title>Greg Dorrell</title>
+        <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" charset="utf-8">
+        <script id="twitterTemplate" type="text/html">
+            <ul class="tweets">
+                {{#each tweets}}
+                <li class="tweet">
+                <a class="avatar" href="http://twitter.com/${user.screen_name}">
+                    <img src="{{= user.profile_image_url}}">
+                </a>
+
+                <span class="tweet-text">
+                    {{= text}}
+                    <span class="tweet-date">
+                        {{= created_at}}
+                    </span>
+                </span>
+                </li>
+                {{/each}}
+            </ul> 
+        </script>
+        <script id="lastfmTemplate" type="text/html">
+            <ul class="tweets">
+                {{#each tracks}}
+                <li class="tweet">
+                <a class="avatar" href="{{= url}}">
+                    <img src="{{= image }}">
+                </a>
+
+                <span class="lastfm-artist">{{= artist}}</span>
+                <span class="lastfm-album">{{= album}}</span>
+                <span class="lastfm-title">{{= title}}</span>
+                <span class="lastfm-time">{{= date}}</span>
+                </li>
+                {{/each}}
+            </ul> 
+        </script>
+        <script id="facebookTemplate" type="text/html">
+            <ul class="tweets">
+                {{#each data}}
+                <li class="tweet">
+                <a class="avatar" href="{{= link}}">
+                    <img src="{{= picture }}">
+                </a>
+
+                <span class="lastfm-artist">{{= name}}</span>
+                <span class="lastfm-artist">{{= story}}</span>
+                <span class="lastfm-title">{{= description}}</span>
+                <span class="lastfm-title">{{= likes.count}}</span>
+                <span class="lastfm-title">{{= comments.count}}</span>
+                </li>
+                {{/each}}
+            </ul> 
+        </script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="http://borismoore.github.com/jsrender/jsrender.js"></script>
+        <script type="text/javascript" charset="utf-8">
+
+        
+            $(document).ready(function() {
+
+                $("body").append('<div id="overlay" style="display: none;"></div>')
+                $("#overlay").click(function() {
+                  $("#overlay").hide('fast')
+                  $(".box").hide('fast')
+                })
+
+                //For each service, make button work, and click on content again to close.
+                $(".box").each(function(index) {
+                    var service = this.id;
+                    $('#'+service+"-link, #"+service).click(function(){
+                        $("#overlay").toggle('slow')
+                        $("#"+service).toggle('slow')
+                    });
+                });
+
+                //Populate service overlays
+                //Twitter
+                $.getJSON('resources/twitter.json', function(data) {
+                    $("#twitter-feed").html($('#twitterTemplate').render({"tweets":data}))
+                })
+                //Last
+                $.getJSON('resources/lastfm.json', function(data) {
+                    var tracks = {"tracks":data.recenttracks.track.map(function(track) {return {
+                        "artist":track.artist["#text"],
+                        "album":track.album["#text"],
+                        "title":track.name,
+                        "image":track.image[0]["#text"],
+                        "url":track.url,"date":track.date["#text"]
+                    } })}
+                    $("#lastfm-feed").html($("#lastfmTemplate").render(tracks))
+                })
+                $.getJSON('resources/facebook.json', function(data) {
+                    $("#facebook-feed").html($("#facebookTemplate").render(data))
+                })
+                $.getJSON('resources/reddit.json', function(data) {
+                    console.log(data)
+                })
+
+            });
+        </script>
+        <style type="text/css" media="screen">
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td,
+            article, aside, canvas, details, embed, 
+            figure, figcaption, footer, header, hgroup, 
+            menu, nav, output, ruby, section, summary,
+            time, mark, audio, video {
+            	margin: 0;
+            	padding: 0;
+            	border: 0;
+            	font-size: 100%;
+            	font: inherit;
+            	vertical-align: baseline;
+            }
+            
+            a.avatar {
+              height:48x;
+              width:48;
+              float:left;
+              overflow-y:auto;
+              left-padding:0.5em;
+            }
+            
+            div {
+              overflow:auto;
+            }
+        
+            body {
+                background-image:url("img/background.png");
+                font: 11px/16px "Lucida Grande",Verdana,sans-serif;
+                
+            }
+
+            div#content {
+                background: rgba(255,255,255,0.8);
+                -moz-border-radius: 5px;
+                padding: 15px;
+                margin: auto;
+                margin-top: 30;
+                min-width: 500px;
+                width: 75%;
+                -moz-box-shadow: 0 0 2px 2px #F0A830;
+                -webkit-box-shadow: 0 0 5px 5px#000;
+                box-shadow: 0 0 2px 2px #000;
+                text-align: center;
+                
+                
+            }
+            
+            #links {
+                font: 18px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
+                text-shadow: 2px 2px 2px #78C0A8;
+            }
+            #links li { 
+                display:inline;
+                padding:10px;
+            }
+            
+            h1 {
+                font-family: "Chunkfive";
+                font-size: 72px;
+                color: #666;
+                padding:40px;
+                white-space:nowrap;
+            }
+            
+            #overlay {
+              background-color: black;
+              position: fixed;
+              top:0px;
+              left:0px;
+              bottom:0px;
+              right:0px;
+              opacity: 0.7;
+              z-index: 99;
+            }
+            
+            .box {
+              position:fixed;
+              left:20%;
+              right:20%;
+              max-height:800px;
+              max-width:800px;
+              top:10%;
+              bottom:10%;
+              z-index:3001;
+              
+              background: rgba(255,255,255,0.8);
+              -moz-border-radius: 5px;
+              -moz-box-shadow: 0 0 2px 2px #F0A830;
+              -webkit-box-shadow: 0 0 5px 5px#000;
+              box-shadow: 0 0 2px 2px #000;              
+            }
+            
+            div#twitter-feed {
+              overflow:auto;
+              width:100%;
+              
+            }
+            
+            .tweet {
+              overflow:auto;
+              padding:0.5em;
+            }
+            
+            .tweet-text {
+              padding: 0.5em;
+            }
+            
+            .tweet-date {
+              display:block;
+              color:#666;
+              padding: inherit;
+            }
+            
+            @font-face {
+                font-family: "Chunkfive";
+                src: url("fonts/Chunkfive.otf");         
+            }
+            
+         </style>
+    </head>
+    <body>
+        <div id="content">
+            <h1>Greg Dorrell</h1>  
+            <p>
+                <ol id="links">
+                    <li id="facebook-link">
+                        <img src="img/facebook_icon.png" alt="Facebook" />
+                    </li>
+                    <li id="lastfm-link"> 
+                        <img src="img/lastfm_icon.png" alt="LastFM" />
+                    </li>
+                    <li id="twitter-link">
+                        <img src="img/twitter_icon.png" alt="Twitter"/>  
+                    </li>
+                    <li id="reddit-link">
+                        <img src="img/reddit_icon.png" alt="Reddit" />  
+                    </li>
+                    <li id="linkedin-link">
+                        <img src="img/linkedin_icon.png" alt="LinkedIn" />  
+                    </li>                    
+                </ol>
+
+            </p> 
+        </div>
+        <div id="twitter" class="box" style="display:none;">
+          <div id="twitter-feed">
+            
+          </div>
+        </div>
+        
+        <div id="lastfm" class="box" style="display:none;">
+          <div id="lastfm-feed">
+            
+          </div>
+        </div>
+        <div id="facebook" class="box" style="display:none;">
+          <div id="facebook-feed">
+            
+          </div>
+        </div>
+        <div id="reddit" class="box" style="display:none;">
+          <div id="reddit-feed">
+            
+          </div>
+        </div>
+    </body>
+</html>
