@@ -16,6 +16,41 @@
             }
 
             .brand {font-family: 'Ubuntu', sans-serif;font-size:30px}
+
+            [class^="social-"], [class*="social-"] {
+                display: inline-block;
+                width: 64px;
+                height: 64px;
+                line-height: 64px;
+                vertical-align: text-top;
+                /*background-image: url("../img/glyphicons-halflings.png");
+                background-position: 64px 64px;
+                background-repeat: no-repeat;
+                *margin-right: .3em;*/
+            }
+
+            ul.socialnav > li > a:hover {
+                color:#fff;
+            }
+            ul.socialnav > li > a {
+                color: #eee;
+                font-size: 42px;
+            }
+
+            img.profile {margin-right:auto;margin-left:auto;display:block;}
+
+            .social-facebook {background-image: url("img/elegantmediaicons/PNG/facebook.png");}
+            .social-reddit {background-image: url("img/elegantmediaicons/PNG/reddit.png");}
+            .social-linkedin {background-image: url("img/elegantmediaicons/PNG/linkedin.png");}
+            .social-lastfm {background-image: url("img/elegantmediaicons/PNG/lastfm.png");}
+            .social-twitter {background-image: url("img/elegantmediaicons/PNG/twitter.png");}
+
+            body {
+                background-image: url(img/back.png),url(img/back2.png);
+                background-repeat: no-repeat;
+                background-position: bottom right,top left;
+            }
+
         </style>
         <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
@@ -55,7 +90,7 @@
                     <h2>Who?</h2>
                     <p>Just a student finishing the final year of my Computer Science degree at the <a href="www.bath.ac.uk">University of Bath</a>. I spent last year at <a href="www.ms.com">Morgan Stanley</a>, where I spent a lot of my time working on aspects of their public website.</p>
                     <p>I have an eclectic <a href="http://last.fm/user/grogs">music taste</a>, I wish I went to more gigs. I waste way too much money on popcorn at the cinema.</p>
-                    <img src="img/face.jpg" />
+                    <img src="img/face.jpg" class="profile"/>
                     <p><a class="btn" href="#">View details &raquo;</a></p>
                 </div>
                 <div class="span4">
@@ -69,23 +104,14 @@
                 </div>
                 <div class="span4">
                     <h2>Elsewhere</h2>
-                    <table>
-                    	<tr>
-                    		<td><p><img src="img/elegantmediaicons/PNG/twitter.png"/></td><td> <h2>Twitter</h2> </p></td>
-                    	</tr>
-                    	<tr>
-                    		<td><p><img src="img/elegantmediaicons/PNG/reddit.png"/></td><td> <h2>Reddit</h2> </p></td>
-                    	</tr>
-                    	<tr>
-                    		<td><p><img src="img/elegantmediaicons/PNG/facebook.png"/></td><td> <h2>Facebook</h2> </p></td>
-                    	</tr>
-                    	<tr>
-                    		<td><p><img src="img/elegantmediaicons/PNG/lastfm.png"/></td><td> <h2>LastFM</h2> </p></td>
-                    	</tr>
-                    	<tr>
-                    		<td><p><img src="img/elegantmediaicons/PNG/linkedin.png"/></td><td> <h2>LinkedIn</h2> </p></td>
-                    	</tr>
-                    </table>
+                    <ul class="nav socialnav">
+                        <li><a href="#facebook" data-toggle="modal"> <i class="social-facebook"></i> Facebook</a></li>
+                        <li><a href="#twitter"> <i class="social-twitter"></i> Twitter</a></li>
+                        <li><a href="#lastfm"> <i class="social-lastfm"></i> LastFM</a></li>
+                        <li><a href="#linkedin"> <i class="social-linkedin"></i> LinkedIn</a></li>
+                        <li><a href="#reddit"> <i class="social-reddit"></i> reddit</a></li>
+
+                    </ul>
                 </div>
             </div>
 
@@ -93,20 +119,42 @@
 
             <footer>
             <p>&copy; Greg Dorrell 2012</p>
+            <div class="fb-like" data-href="http://gregd.me" data-send="true" data-layout="button_count" data-width="200" data-show-faces="true" style="float:right;"></div>
             </footer>
+
+            <div class="modal fade" id="facebook" style="display:none;">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Recent Facebook Posts</h3>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://facebook.com/gregd" class="btn btn-info" >Go to Profile</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
 
         </div> <!-- /container -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.latest.js"></script>
         <script src="js/bootstrap.js"></script>
-        <script>$(document).ready(function() {
-            $('.slideshow').cycle({
-                fx: 'fade' 
-            });
-        });</script>
         <script src="http://borismoore.github.com/jsrender/jsrender.js"></script>
+        <script src="js/json2.js"></script>
+        <script src="js/underscore.js"></script>
+        <script src="js/backbone.js"></script>
         <script type="text/javascript">(function($) {
             window.TwitterView=Backbone.View.extend({})
         })(jQuery)</script>
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=121775961224837";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
     </body>
 </html>
