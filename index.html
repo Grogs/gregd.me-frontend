@@ -37,7 +37,8 @@
                 font-size: 42px;
             }
 
-            img.profile {margin-right:auto;margin-left:auto;display:block;}
+            img.profile {margin-right:auto;margin-left:auto;display:/*block*/none;}
+            img.center {margin-right:auto;margin-left:auto;display:block;}
 
             .social-facebook {background-image: url("img/elegantmediaicons/PNG/facebook.png");}
             .social-reddit {background-image: url("img/elegantmediaicons/PNG/reddit.png");}
@@ -105,7 +106,7 @@
                 <div class="span4">
                     <h2>Elsewhere</h2>
                     <ul class="nav socialnav">
-                        <li><a href="#facebook" data-toggle="modal"> <i class="social-facebook"></i> Facebook</a></li>
+                        <li><a href="#facebook"> <i class="social-facebook"></i> Facebook</a></li>
                         <li><a href="#twitter"> <i class="social-twitter"></i> Twitter</a></li>
                         <li><a href="#lastfm"> <i class="social-lastfm"></i> LastFM</a></li>
                         <li><a href="#linkedin"> <i class="social-linkedin"></i> LinkedIn</a></li>
@@ -128,10 +129,67 @@
                     <h3>Recent Facebook Posts</h3>
                 </div>
                 <div class="modal-body">
-                    <p>One fine body…</p>
+                    <img class="center" src="img/ajax-loader.gif"/>
                 </div>
                 <div class="modal-footer">
                     <a href="http://facebook.com/gregd" class="btn btn-info" >Go to Profile</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="twitter" style="display:none;">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Recent Tweets</h3>
+                </div>
+                <div class="modal-body">http://www.reddit.com/user/Grogs/
+                    <img class="center" src="img/ajax-loader.gif"/>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://twitter.com/grogs" class="btn btn-info" >Go to Profile</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+            <div class="modal fade" id="linkedin" style="display:none;">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>LinkedIn Profile</h3>
+                </div>
+                <div class="modal-body">
+                    <img class="center" src="img/ajax-loader.gif"/>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://www.linkedin.com/in/gregdorrell" class="btn btn-info" >Go to Full Profile</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+            <div class="modal fade" id="lastfm" style="display:none;">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Recently Played Songs</h3>
+                </div>
+                <div class="modal-body">
+                    <img class="center" src="img/ajax-loader.gif"/>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://last.fm/user/grogs" class="btn btn-info" >Go to Profile</a>
+                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+
+            <div class="modal fade" id="reddit" style="display:none;">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Recent Reddit Comments</h3>
+                </div>
+                <div class="modal-body">
+                    <img class="center" src="img/ajax-loader.gif"/>
+                </div>
+                <div class="modal-footer">
+                    <a href="http://http://www.reddit.com/user/Grogs/" class="btn btn-info" >Go to Profile</a>
                     <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
                 </div>
             </div>
@@ -144,8 +202,62 @@
         <script src="js/json2.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/backbone.js"></script>
+        <script type="text/template">
+
+        </script>
         <script type="text/javascript">(function($) {
-            window.TwitterView=Backbone.View.extend({})
+            window.TwitterView = Backbone.View.extend({
+                template: "#twitter-template",
+                tag: 'li',
+                className: 'album',
+
+                initialize: function() {
+                    _.bindAll(this, 'render');
+                    this.initializeTemplate();
+                },
+
+                initializeTemplate: function() {
+                    this.template = _.template($(this.template).html());
+                },
+
+                render: function() {
+                    $(this.el).html(this.template(this.model.toJSON()));
+                    return this;
+                }
+            });
+
+
+            window.SocialRoutes = Backbone.Router.extend({
+                routes: {
+                    "facebook":"facebook",
+                    "twitter":"twitter",
+                    "linkedin":"linkedin",
+                    "lastfm":"lastfm",
+                    "reddit":"reddit"
+                }, 
+
+                initialize: function() {
+                    var modals = new Array("#reddit","#twitter","#facebook","#lastfm","#linkedin")
+                    _.each(modals,function(modal) {$(modal).on('hide', function() {window.location="#"})})
+                },
+
+                facebook: function() {$("#facebook").modal()},
+
+                twitter: function() {$("#twitter").modal()},
+
+                linkedin: function() {$("#linkedin").modal()},
+
+                lastfm: function() {$("#lastfm").modal()},
+
+                reddit: function() {$("#reddit").modal()}
+
+            })
+
+            $(function() {
+                window.App = new SocialRoutes()
+                Backbone.history.start()
+                
+            })
         })(jQuery)</script>
         <div id="fb-root"></div>
         <script>(function(d, s, id) {
