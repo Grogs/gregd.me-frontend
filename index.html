@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Greg Dorrell</title>
+        <title>About Greg Dorrell</title>
         <meta name="description" content="">
         <meta name="author" content="">
         <!--[if lt IE 9]>
@@ -37,7 +37,6 @@
                 font-size: 42px;
             }
 
-            img.profile {margin-right:auto;margin-left:auto;display:/*block*/none;}
             img.center {margin-right:auto;margin-left:auto;display:block;}
 
             .social-facebook {background-image: url("img/elegantmediaicons/PNG/facebook.png");}
@@ -74,9 +73,8 @@
                     <a class="brand" href="#">Greg Dorrell</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li class="active"><a href="#">About</a></li>
+                            <li><a href="contact.html">Contact</a></li>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
@@ -91,17 +89,15 @@
                     <h2>Who?</h2>
                     <p>Just a student finishing the final year of my Computer Science degree at the <a href="www.bath.ac.uk">University of Bath</a>. I spent last year at <a href="www.ms.com">Morgan Stanley</a>, where I spent a lot of my time working on aspects of their public website.</p>
                     <p>I have an eclectic <a href="http://last.fm/user/grogs">music taste</a>, I wish I went to more gigs. I waste way too much money on popcorn at the cinema.</p>
-                    <img src="img/face.jpg" class="profile"/>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                    <img src="img/face.jpg" class="center"/>
                 </div>
                 <div class="span4">
                     <h2>What?</h2>
                     <p>Software developer, specifically web developer, specifically back-end web developer.</p>
                     <p>I've written a fair bit of Java, Scala, Python. Recently I've even grown to like C.</p>
                     <p>I can use unix pretty well (this website was created in vim in screen [with 256 colors] in zsh).</p>
-                    <p>I've make enterprise websites in Spring MVC, REST services with JAX-RS. I've written websites with Django, customized one or two PHP CMS installs. In my spare time I've played with Scala's web frameworks, Play, Scalatra, some Lift. I can use JavaScript pretty well, familiar with jQuery, played with Backbone.js, written greasemonkey scripts.</p>
+                    <p>I've made enterprise websites in Spring MVC, REST services with JAX-RS. I've written websites with Django, customized PHP CMS installs. In my spare time I've played with Scala's web frameworks, Play, Scalatra, some Lift. I can use JavaScript pretty well, familiar with jQuery, played with Backbone.js, written greasemonkey scripts.</p>
                     <p>For front end stuff, I cheat and use Twitter's Bootstrap. Although I'm familiar with CSS3, and spent hundreds of hours in Photoshop, I've let those skills stagnate, as I've gradually become more and more interested in the technical/backend.</p>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
                 </div>
                 <div class="span4">
                     <h2>Elsewhere</h2>
@@ -143,8 +139,8 @@
                     <a class="close" data-dismiss="modal">×</a>
                     <h3>Recent Tweets</h3>
                 </div>
-                <div class="modal-body">http://www.reddit.com/user/Grogs/
-                    <img class="center" src="img/ajax-loader.gif"/>
+                <div class="modal-body">
+                    <img class="center loading twitter" src="img/ajax-loader.gif"/>
                 </div>
                 <div class="modal-footer">
                     <a href="http://twitter.com/grogs" class="btn btn-info" >Go to Profile</a>
@@ -158,7 +154,7 @@
                     <h3>LinkedIn Profile</h3>
                 </div>
                 <div class="modal-body">
-                    <img class="center" src="img/ajax-loader.gif"/>
+                    <img class="center loading linkedin" src="img/ajax-loader.gif"/>
                 </div>
                 <div class="modal-footer">
                     <a href="http://www.linkedin.com/in/gregdorrell" class="btn btn-info" >Go to Full Profile</a>
@@ -172,7 +168,7 @@
                     <h3>Recently Played Songs</h3>
                 </div>
                 <div class="modal-body">
-                    <img class="center" src="img/ajax-loader.gif"/>
+                    <img class="center loading lastfm" src="img/ajax-loader.gif"/>
                 </div>
                 <div class="modal-footer">
                     <a href="http://last.fm/user/grogs" class="btn btn-info" >Go to Profile</a>
@@ -186,30 +182,39 @@
                     <h3>Recent Reddit Comments</h3>
                 </div>
                 <div class="modal-body">
-                    <img class="center" src="img/ajax-loader.gif"/>
+                    <img class="center loading reddit" src="img/ajax-loader.gif"/>
                 </div>
                 <div class="modal-footer">
                     <a href="http://http://www.reddit.com/user/Grogs/" class="btn btn-info" >Go to Profile</a>
                     <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
                 </div>
             </div>
+        <a href="https://twitter.com/Grogs" class="twitter-follow-button" data-show-count="true">Follow @Grogs</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=121775961224837";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
 
         </div> <!-- /container -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-        <script type="text/javascript" src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.latest.js"></script>
         <script src="js/bootstrap.js"></script>
-        <script src="http://borismoore.github.com/jsrender/jsrender.js"></script>
         <script src="js/json2.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/backbone.js"></script>
-        <script type="text/template">
-
+        <script id="twitter-template" type="text/template">
+            
         </script>
         <script type="text/javascript">(function($) {
             window.TwitterView = Backbone.View.extend({
-                template: "#twitter-template",
-                tag: 'li',
-                className: 'album',
+                template:  _.template($("#twitter-template").html()),
+                tag: 'div',
+                className: 'twitter',
 
                 initialize: function() {
                     _.bindAll(this, 'render');
@@ -217,11 +222,10 @@
                 },
 
                 initializeTemplate: function() {
-                    this.template = _.template($(this.template).html());
-                },
+                                   },
 
                 render: function() {
-                    $(this.el).html(this.template(this.model.toJSON()));
+                $("#twitter > modal-body").html($(this.el).html(this.template(this.model.toJSON())));
                     return this;
                 }
             });
@@ -259,14 +263,5 @@
                 
             })
         })(jQuery)</script>
-        <div id="fb-root"></div>
-        <script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=121775961224837";
-            fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
     </body>
 </html>
